@@ -1,2 +1,2 @@
 # Common
-C, C++ and homeworks 
+C and C++ projects
