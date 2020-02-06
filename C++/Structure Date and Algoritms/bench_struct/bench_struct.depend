@@ -1,0 +1,51 @@
+# depslib dependency file v1.0
+1580139562 source:/home/igorw/Documents/Source/Structure Date/bench_struct/main.cpp
+	"ctest_data.h"
+
+1572599153 source:/home/igorw/Documents/Source/Structure Date/bench_struct/src/Bench_date.cpp
+	"Bench_date.h"
+
+1572592128 /home/igorw/Documents/Source/Structure Date/bench_struct/include/Bench_date.h
+	<time.h>
+	<stdio.h>
+
+1580936014 source:/home/igorw/Documents/Source/Structure Date/bench_struct/src/cstack.cpp
+	"cstack.h"
+
+1580936004 /home/igorw/Documents/Source/Structure Date/bench_struct/include/cstack.h
+	"cbench_data.h"
+	<cstdint>
+	<iostream>
+	<string.h>
+
+1572592128 source:/home/igorw/Documents/Source/Structure Date/bench_struct/include/Bench_date.h
+	<time.h>
+	<stdio.h>
+
+1572599241 source:/home/igorw/Documents/Source/Structure Date/bench_struct/include/cstack.h
+	"Bench_date.h"
+	<cstdint>
+	<iostream>
+
+1578931463 source:/home/igorw/Documents/Source/Structure Date/bench_struct/src/cbench_data.cpp
+	"cbench_data.h"
+
+1580936004 /home/igorw/Documents/Source/Structure Date/bench_struct/include/cbench_data.h
+	<time.h>
+	<stdio.h>
+
+1580936004 /home/igorw/Documents/Source/Structure Date/bench_struct/include/ctest_data.h
+	"cstack.h"
+
+1580936004 source:/home/igorw/Documents/Source/Structure Date/bench_struct/src/ctest_data.cpp
+	"ctest_data.h"
+
+1579034266 /home/igorw/Documents/Source/Structure Date/bench_struct/include/cdynamic_stack.h
+	"cstack.h"
+	<cstdint>
+	<iostream>
+	<string.h>
+
+1579034288 source:/home/igorw/Documents/Source/Structure Date/bench_struct/src/cdynamic_stack.cpp
+	"cdynamic_stack.h"
+
