@@ -236,6 +236,20 @@ static uint8_t alt_angle_scene_service(uint8_t num, uint16_t angle, uint8_t axis
     if( 0 == temp_scene ) return 0;
 
     angle = angle%360;
+    switch(axis)
+    {
+    case AXIS_X:
+        temp_scene->angle_x += angle;
+        break;
+    case AXIS_Y:
+        temp_scene->angle_y += angle;
+        break;
+    case AXIS_Z:
+        temp_scene->angle_z += angle;
+        break;
+    default:
+        return 0;
+    }
 
     register double m_sin = sin( (angle*PI)/180.0 );
     register double m_cos = cos( (angle*PI)/180.0 );
@@ -262,7 +276,7 @@ static uint8_t alt_angle_scene_service(uint8_t num, uint16_t angle, uint8_t axis
                 ( *(temp_primitive->p_figure+i) ).y = temp.x*m_sin + temp.y*m_cos;
                 continue;
             default:
-                return 0;
+                break;
             }
         }
         temp_primitive = temp_primitive->next_primitive;
@@ -345,6 +359,21 @@ void alt_angle_scene(uint16_t angle, uint8_t axis)
 
     angle = angle%360;
 
+    switch(axis)
+    {
+    case AXIS_X:
+        temp_scene->angle_x += angle;
+        break;
+    case AXIS_Y:
+        temp_scene->angle_y += angle;
+        break;
+    case AXIS_Z:
+        temp_scene->angle_z += angle;
+        break;
+    default:
+        return;
+    }
+
     register double m_sin = sin( (angle*PI)/180.0 );
     register double m_cos = cos( (angle*PI)/180.0 );
 
@@ -370,7 +399,7 @@ void alt_angle_scene(uint16_t angle, uint8_t axis)
                 ( *(temp_primitive->p_figure+i) ).y = temp.x*m_sin + temp.y*m_cos;
                 continue;
             default:
-                return;
+                break;
             }
         }
         temp_primitive = temp_primitive->next_primitive;
