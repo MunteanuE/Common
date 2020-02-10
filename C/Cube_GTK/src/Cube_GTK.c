@@ -128,54 +128,41 @@ static uint8_t initialize_scene(type_point point)
 
 static void initialize_cube(type_primitive* primitive, type_point point)
 {
-    primitive->p_figure = (type_point*)malloc(12*CUBE_LENGTH*sizeof(type_point));
+    primitive->p_figure = (type_point*)malloc(8*sizeof(type_point));
     type_point offset = get_current_scene()->axis_center;
+    primitive->len_p_figure = 8;
+    primitive->type_of_primitive = CUBE;
     offset.x = point.x - offset.x;
     offset.y = point.y - offset.y;
     offset.z = point.z - offset.z;
 
-    for(uint8_t i = 0; i < 12; i++)
+    for(uint8_t i = 0; i < 8; i++)
     {
-        for(uint16_t c = 0; c < CUBE_LENGTH; c++)
+        if( 0 == i || 1 == i || 2 == i || 3 == i )
         {
-            if( 0 == i || 2 == i || 4 == i || 6 == i ) /* 0,2 - closed horizontals, 4,6 - far horizontals */
-            {
-                ( *(primitive->p_figure + i*CUBE_LENGTH + c) ).y = c + ( -(CUBE_LENGTH>>1) + offset.y);
-            }
-            if( 3 == i || 7 == i || 8 == i || 11 == i ) /* 3,7 - left verticales, 8, 11 - left "bridges" */
-            {
-                ( *(primitive->p_figure + i*CUBE_LENGTH + c) ).y = - (CUBE_LENGTH>>1) + offset.y;
-            }
-            if( 1 == i || 5 == i || 9 == i || 10 == i ) /* 1,5 - right verticales, 9, 11 - rihgt "bridges" */
-            {
-                ( *(primitive->p_figure + i*CUBE_LENGTH + c) ).y = (CUBE_LENGTH>>1) + offset.y;
-            }
+            ( *(primitive->p_figure + i) ).z = - (CUBE_LENGTH>>1) + offset.z;
+        }
+        if( 4 == i || 5 == i || 6 == i || 7 == i )
+        {
+            ( *(primitive->p_figure + i) ).z = (CUBE_LENGTH>>1) + offset.z;
+        }
 
-            if( 0 == i || 4 == i || 8 == i || 9 == i )
-            {
-                ( *(primitive->p_figure + i*CUBE_LENGTH + c) ).z = - (CUBE_LENGTH>>1) + offset.z;
-            }
-            if( 1 == i || 3 == i || 5 == i || 7 == i )
-            {
-                ( *(primitive->p_figure + i*CUBE_LENGTH + c) ).z = c + ( -(CUBE_LENGTH>>1) + offset.z);
-            }
-            if( 2 == i || 6 == i || 10 == i || 11 == i )
-            {
-                ( *(primitive->p_figure + i*CUBE_LENGTH + c) ).z = (CUBE_LENGTH>>1) + offset.z;
-            }
+        if( 0 == i || 3 == i || 4 == i || 7 == i )
+        {
+            ( *(primitive->p_figure + i) ).y = - (CUBE_LENGTH>>1) + offset.y;
+        }
+        if( 1 == i || 2 == i || 5 == i || 6 == i )
+        {
+            ( *(primitive->p_figure + i) ).y = (CUBE_LENGTH>>1) + offset.y;
+        }
 
-            if( 0 == i || 1 == i || 2 == i || 3 == i )
-            {
-                ( *(primitive->p_figure + i*CUBE_LENGTH + c) ).x = - (CUBE_LENGTH>>1) + offset.x;
-            }
-            if( 8 == i || 9 == i || 10 == i || 11 == i )
-            {
-                ( *(primitive->p_figure + i*CUBE_LENGTH + c) ).x = c + ( -(CUBE_LENGTH>>1) + offset.x);
-            }
-            if(4==i || 5==i || 6==i || 7==i)
-            {
-                ( *(primitive->p_figure + i*CUBE_LENGTH + c) ).x = (CUBE_LENGTH>>1) + offset.x;
-            }
+        if( 2 == i || 3 == i || 6 == i || 7 == i )
+        {
+            ( *(primitive->p_figure + i) ).x = - (CUBE_LENGTH>>1) + offset.x;
+        }
+        if( 0 == i || 1 == i || 4 == i || 5 == i )
+        {
+            ( *(primitive->p_figure + i) ).x = (CUBE_LENGTH>>1) + offset.x;
         }
     }
 }
@@ -257,7 +244,7 @@ static uint8_t alt_angle_scene_service(uint8_t num, uint16_t angle, uint8_t axis
     type_primitive *temp_primitive = get_primitive_number(temp_scene->p_primitive, 0);
     while( 0 != temp_primitive)
     {
-        for(uint16_t i = 0; i < 12*CUBE_LENGTH; i++)
+        for(uint16_t i = 0; i < temp_primitive->len_p_figure; i++)
         {
             type_point temp = *( (*temp_primitive).p_figure + i );
 
@@ -286,11 +273,12 @@ static uint8_t alt_angle_scene_service(uint8_t num, uint16_t angle, uint8_t axis
 
 static void draw_primitives(GtkWidget *widget, type_primitive *primitive, uint8_t num)
 {
-    for(uint16_t i=0; i<12*CUBE_LENGTH; i++)
+    switch(primitive->type_of_primitive)
     {
-        draw_brush(widget,
-        get_scene_number(space.scene, num)->axis_center.y + ( *(primitive->p_figure+i) ).y + DEFAULT_Y_OFFSET,
-        get_scene_number(space.scene, num)->axis_center.z + ( *(primitive->p_figure+i) ).z + DEFAULT_Z_OFFSET);
+    case 0:
+        draw_cube(widget, primitive, num);
+    break;
+    default:;
     }
     if( 0 != primitive->next_primitive) draw_primitives(widget, primitive->next_primitive, num);
     return;
@@ -300,6 +288,56 @@ static void draw_scenes(GtkWidget *widget, type_scene *scene, uint8_t num)
 {
     if( 0 != scene->p_primitive ) draw_primitives(widget, scene->p_primitive, num);
     if( 0 != scene->next_scene ) draw_scenes(widget, scene->next_scene, ++num);
+    return;
+}
+
+static void draw_cube(GtkWidget *widget, type_primitive *primitive, uint8_t num)
+{
+
+    draw_linear_interpolation(widget, primitive->p_figure, primitive->p_figure+1, num);
+    draw_linear_interpolation(widget, primitive->p_figure, primitive->p_figure+3, num);
+    draw_linear_interpolation(widget, primitive->p_figure, primitive->p_figure+4, num);
+
+    draw_linear_interpolation(widget, primitive->p_figure+2, primitive->p_figure+1, num);
+    draw_linear_interpolation(widget, primitive->p_figure+2, primitive->p_figure+3, num);
+    draw_linear_interpolation(widget, primitive->p_figure+2, primitive->p_figure+6, num);
+
+    draw_linear_interpolation(widget, primitive->p_figure+5, primitive->p_figure+1, num);
+    draw_linear_interpolation(widget, primitive->p_figure+5, primitive->p_figure+4, num);
+    draw_linear_interpolation(widget, primitive->p_figure+5, primitive->p_figure+6, num);
+
+    draw_linear_interpolation(widget, primitive->p_figure+7, primitive->p_figure+3, num);
+    draw_linear_interpolation(widget, primitive->p_figure+7, primitive->p_figure+4, num);
+    draw_linear_interpolation(widget, primitive->p_figure+7, primitive->p_figure+6, num);
+    return;
+}
+
+static void draw_linear_interpolation(GtkWidget *widget, type_point* point_a, type_point* point_b, uint8_t num)
+{
+    type_point max = point_a->y > point_b->y ? *(point_a) : *(point_b);
+    type_point min = point_a->y < point_b->y ? *(point_a) : *(point_b);
+
+    uint16_t len = max.y - min.y;
+    double step = (max.z - min.z)/len;
+    for(uint16_t i = 0; i < len; i++)
+    {
+        draw_brush(widget,
+        (get_scene_number(space.scene, num)->axis_center.y + DEFAULT_Y_OFFSET) + min.y+i,
+        (get_scene_number(space.scene, num)->axis_center.z + DEFAULT_Z_OFFSET) + i*step+min.z);
+    }
+
+    max = point_a->z > point_b->z ? *(point_a) : *(point_b);
+    min = point_a->z < point_b->z ? *(point_a) : *(point_b);
+
+    len = max.z - min.z;
+    step = (max.y - min.y)/len;
+    for(uint16_t i = 0; i < len; i++)
+    {
+        draw_brush(widget,
+        (get_scene_number(space.scene, num)->axis_center.y  + DEFAULT_Y_OFFSET) + i*step+min.y,
+        (get_scene_number(space.scene, num)->axis_center.z + DEFAULT_Z_OFFSET) + min.z+i);
+    }
+
     return;
 }
 
@@ -380,7 +418,7 @@ void alt_angle_scene(uint16_t angle, uint8_t axis)
     type_primitive *temp_primitive = get_current_primitive();
     while( 0 != temp_primitive)
     {
-        for(uint16_t i = 0; i < 12*CUBE_LENGTH; i++)
+        for(uint16_t i = 0; i < temp_primitive->len_p_figure; i++)
         {
             type_point temp = *( (*temp_primitive).p_figure + i );
 
