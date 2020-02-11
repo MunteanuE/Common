@@ -28,7 +28,8 @@ Version 0.10.
 #define AXIS_Y 1
 #define AXIS_Z 2
 
-#define CUBE 0
+#define CUBE 1
+#define CUSTOM 2
 
 typedef struct
 {
@@ -74,6 +75,7 @@ inline static void delete_primitive(type_primitive* primitive, uint8_t number);
 inline static void delete_scene(type_scene* scene, uint8_t number);
 inline static void free_primitives(type_primitive* primitive);
 inline static void free_scenes(type_scene* scene);
+inline static void initialize_vertex(type_primitive* primitive, type_point point);
 inline static uint8_t initialize_next_primitive(type_primitive* primitive, type_point point, uint8_t type_figure);
 inline static uint8_t initialize_next_scene(type_scene* scene, type_point point);
 inline static uint8_t initialize_scene(type_point point);
@@ -84,15 +86,17 @@ inline static type_primitive* get_primitive_number(type_primitive* primitive, ui
 inline static type_scene* get_current_scene();
 inline static type_scene* get_scene_number(type_scene* scene, uint8_t num);
 inline static uint8_t alt_angle_scene_service(uint8_t num, uint16_t angle, uint8_t axis);
-inline static void draw_primitives(GtkWidget *widget, type_primitive *primitive, uint8_t num);
-inline static void draw_scenes(GtkWidget *widget, type_scene *scene, uint8_t num);
-inline static void draw_cube(GtkWidget *widget, type_primitive *primitive, uint8_t num);
+inline static void draw_custom(GtkWidget* widget, type_primitive* primitive, uint8_t num);
+inline static void draw_primitives(GtkWidget* widget, type_primitive* primitive, uint8_t num);
+inline static void draw_scenes(GtkWidget* widget, type_scene* scene, uint8_t num);
+inline static void draw_cube(GtkWidget* widget, type_primitive* primitive, uint8_t num);
 inline static void draw_linear_interpolation(GtkWidget *widget, type_point* point_a, type_point* point_b, uint8_t num);
 
 //"Public funcions"
 void delete_current_primitive();
 void delete_current_scene();
 void free_all();
+uint8_t create_vertex(type_point* point);
 uint8_t create_primitive(uint8_t type_figure, type_point point);
 void create_scene(type_point point);
 void alt_angle_scene(uint16_t angle, uint8_t axis);

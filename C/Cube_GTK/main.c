@@ -107,7 +107,7 @@ static gboolean fake_event_cb(GtkWidget* widget, GdkEventButton* event, gpointer
     alt_all_scenes(2, AXIS_Z);
     draw_all(widget);
     gtk_widget_queue_draw(widget);
-    usleep(10000);
+    usleep(16666);
 
     return TRUE;
 }

@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1581012109 source:/home/igorw/Documents/Source/Cube_GTK/Cube_GTK/main.c
+1581417352 source:/home/igorw/Documents/Source/Cube_GTK/Cube_GTK/main.c
 	<Cube_GTK.h>
 
 1574885134 /usr/include/gtk-3.0/gtk/gtk.h
@@ -2976,12 +2976,12 @@
 	<gtk/gtk.h>
 	<math.h>
 
-1581013422 /home/igorw/Documents/Source/Cube_GTK/Cube_GTK/src/Cube_GTK.h
+1581417505 /home/igorw/Documents/Source/Cube_GTK/Cube_GTK/src/Cube_GTK.h
 	"Cube_GTK.h"
 	<inttypes.h>
 	<gtk/gtk.h>
 	<math.h>
 
-1581013926 source:/home/igorw/Documents/Source/Cube_GTK/Cube_GTK/src/Cube_GTK.c
+1581417035 source:/home/igorw/Documents/Source/Cube_GTK/Cube_GTK/src/Cube_GTK.c
 	"Cube_GTK.h"
 
