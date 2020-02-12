@@ -1,7 +1,8 @@
 #include "Cube_GTK.h"
 #ifdef CUBE_GTK_H
 
-static type_space space;
+static type_space space = {0, 0, 0};
+static uint8_t init = 0;
 
 inline static void delete_primitive(type_primitive* primitive, uint8_t number)
 {
@@ -78,7 +79,14 @@ inline static void initialize_vertex(type_primitive* primitive, type_point point
 {
     type_point *p_temp = (type_point*)malloc(sizeof(type_point)*(primitive->len_p_figure+1));
     memcpy(p_temp, primitive->p_figure, sizeof(type_point)*(primitive->len_p_figure));
+
+    type_point offset = get_current_scene()->axis_center;
+    point.x -= offset.x;
+    point.y -= offset.y;
+    point.z -= offset.z;
+
     *(p_temp+primitive->len_p_figure) = point;
+
     primitive->len_p_figure++;
     free(primitive->p_figure);
     primitive->p_figure = p_temp;
@@ -94,6 +102,7 @@ inline static uint8_t initialize_next_primitive(type_primitive* primitive, type_
         if( 0 == primitive->next_primitive ) return 0;
         primitive->next_primitive->previous_primitive = primitive;
         primitive->next_primitive->next_primitive = 0;
+        primitive->next_primitive->len_p_figure = 0;
         initialize_figure(primitive->next_primitive, point, type_figure);
         if( 0 == primitive->next_primitive->p_figure ) return 0;
         return 1;
@@ -133,6 +142,7 @@ inline static uint8_t initialize_scene(type_point point)
         space.scene->work_primitive = 0;
         space.current_scene = 0;
         space.work_scene = 0;
+        init = 1;
         return 1;
     }
     return initialize_next_scene(space.scene, point);
@@ -190,9 +200,7 @@ inline static void initialize_figure(type_primitive* primitive, type_point point
         if( 0 == primitive->len_p_figure)
         {
             primitive->type_of_primitive = CUSTOM;
-            primitive->p_figure = (type_point*)malloc(sizeof(type_point));
-            *(primitive->p_figure) = point;
-            primitive->len_p_figure = 1;
+            primitive->p_figure = (type_point*)malloc(sizeof(type_point)*0);
         }
         initialize_vertex(primitive, point);
     default:
@@ -202,6 +210,7 @@ inline static void initialize_figure(type_primitive* primitive, type_point point
 
 inline static type_primitive* get_current_primitive()
 {
+    if( 0 == get_current_scene()) return 0;
     if( 0 == get_current_scene()->current_primitive )
     {
         if( 0 == get_current_scene()->p_primitive ) return 0;
@@ -221,6 +230,7 @@ inline static type_primitive* get_primitive_number(type_primitive* primitive, ui
 
 inline static type_scene* get_current_scene()
 {
+    if (0 == init) return 0;
     if( 0 == space.current_scene )
     {
         if( 0 == space.scene ) return 0;
@@ -294,17 +304,10 @@ inline static uint8_t alt_angle_scene_service(uint8_t num, uint16_t angle, uint8
 
 inline static void draw_custom(GtkWidget* widget, type_primitive* primitive, uint8_t num)
 {
-    switch(primitive->type_of_primitive)
+    for(uint8_t i = 0; i < primitive->len_p_figure - 1; i++)
     {
-    case CUBE:
-        draw_cube(widget, primitive, num);
-    break;
-    case CUSTOM:
-        draw_custom(widget, primitive, num);
-    break;
-    default:;
+        draw_linear_interpolation(widget, primitive->p_figure+i, primitive->p_figure+i+1, num);
     }
-    if( 0 != primitive->next_primitive) draw_primitives(widget, primitive->next_primitive, num);
     return;
 }
 
@@ -407,15 +410,20 @@ void free_all()
     return;
 }
 
-uint8_t create_vertex(type_point* point)
+uint8_t create_vertex(type_point point)
 {
-    if( 0 == get_current_primitive() )
+    if( 0 == space.scene )
     {
-        create_primitive(CUSTOM, *point);
+        create_scene(point);
+        create_primitive(CUSTOM, point);
+    }
+    if( 0 == get_current_primitive())
+    {
+        create_primitive(CUSTOM, point);
     }
     type_primitive* current_primitive = get_current_primitive();
     if( 0 == current_primitive ) return 0;
-    initialize_figure(current_primitive, *point, CUSTOM);
+    initialize_figure(current_primitive, point, CUSTOM);
 
 }
 
@@ -434,7 +442,8 @@ uint8_t create_primitive(uint8_t type_figure, type_point point)
         current_scene->p_primitive->previous_primitive = 0;
         current_scene->p_primitive->next_primitive = 0;
         current_scene->p_primitive->type_of_primitive = 0;
-        initialize_figure(current_scene->p_primitive, point, type_figure);
+        current_scene->p_primitive->len_p_figure = 0;
+        if( CUSTOM != type_figure ) initialize_figure(current_scene->p_primitive, point, type_figure);
         if( 0 == current_scene->p_primitive->p_figure ) return 0;
         current_scene->current_primitive = 0;
         return 1;

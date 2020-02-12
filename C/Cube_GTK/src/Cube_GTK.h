@@ -96,7 +96,7 @@ inline static void draw_linear_interpolation(GtkWidget *widget, type_point* poin
 void delete_current_primitive();
 void delete_current_scene();
 void free_all();
-uint8_t create_vertex(type_point* point);
+uint8_t create_vertex(type_point point);
 uint8_t create_primitive(uint8_t type_figure, type_point point);
 void create_scene(type_point point);
 void alt_angle_scene(uint16_t angle, uint8_t axis);
