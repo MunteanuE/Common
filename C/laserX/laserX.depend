@@ -1,0 +1,81 @@
+# depslib dependency file v1.0
+1583253396 source:/home/igorw/Documents/Source/laserX/laserX/main.c
+	<stdio.h>
+	"timer.h"
+	"menu.h"
+
+1583002013 /home/igorw/Documents/Source/laserX/laserX/src/timer.h
+	<stdint.h>
+	"bswwindowstimer.h"
+	"bswlinuxtimer.h"
+
+1583128935 /home/igorw/Documents/Source/laserX/laserX/src/menu.h
+	<stdint.h>
+	"bswwindowsmenu.h"
+	"bswlinuxmenu.h"
+
+1583256223 source:/home/igorw/Documents/Source/laserX/laserX/src/menu.c
+	<stdio.h>
+	<string.h>
+	"menu.h"
+
+1583002013 source:/home/igorw/Documents/Source/laserX/laserX/src/timer.c
+	"timer.h"
+
+1582546489 /home/igorw/Documents/Source/laserX/laserX/src/Windows/bswwindowsmenu.h
+	<conio.h>
+
+1582546799 /home/igorw/Documents/Source/laserX/laserX/src/Linux/bswlinuxmenu.h
+
+1583255736 source:/home/igorw/Documents/Source/laserX/laserX/src/Linux/bswlinuxmenu.c
+	<stdint.h>
+	<termios.h>
+	<pthread.h>
+	"bswlinuxmenu.h"
+
+1583005044 source:/home/igorw/Documents/Source/laserX/laserX/src/Linux/bswlinuxtimer.c
+	<stdint.h>
+	<time.h>
+	<math.h>
+	"bswlinuxtimer.h"
+
+1582826111 source:/home/igorw/Documents/Source/laserX/laserX/src/Windows/bswwindowsmenu.c
+	<stdint.h>
+	<stdio.h>
+	"bswwindowsmenu.h"
+
+1582265948 source:/home/igorw/Documents/Source/laserX/laserX/src/Windows/bswwindowstimer.c
+	<stdint.h>
+	<windows.h>
+	"bswwindowstimer.h"
+
+1582224001 /home/igorw/Documents/Source/laserX/laserX/src/Windows/bswwindowstimer.h
+
+1583004944 /home/igorw/Documents/Source/laserX/laserX/src/Linux/bswlinuxtimer.h
+
+1583002013 /home/igorw/Documents/Source/laserX/laserX/header/timer.h
+	<stdint.h>
+	"bswwindowstimer.h"
+	"bswlinuxtimer.h"
+
+1583255309 /home/igorw/Documents/Source/laserX/laserX/header/menu.h
+	<stdint.h>
+	"rteprint.h"
+
+1583176054 /home/igorw/Documents/Source/laserX/laserX/header/rteprint.h
+	<stdint.h>
+	"bswwindowsmenu.h"
+	"bswlinuxmenu.h"
+
+1583176765 source:/home/igorw/Documents/Source/laserX/laserX/src/rteprint.c
+	"rteprint.h"
+
+1582224001 /home/igorw/Documents/Source/laserX/laserX/header/Windows/bswwindowstimer.h
+
+1583004944 /home/igorw/Documents/Source/laserX/laserX/header/Linux/bswlinuxtimer.h
+
+1582546489 /home/igorw/Documents/Source/laserX/laserX/header/Windows/bswwindowsmenu.h
+	<conio.h>
+
+1583180857 /home/igorw/Documents/Source/laserX/laserX/header/Linux/bswlinuxmenu.h
+
