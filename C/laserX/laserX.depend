@@ -1,5 +1,12 @@
 # depslib dependency file v1.0
-1583253396 source:/home/igorw/Documents/Source/laserX/laserX/main.c
+1583945550 source:/home/igorw/Documents/Source/laserX/laserX/main.c
+	"rteadcinit.h"
+	"rteapbinit.h"
+	"rtebuzzinit.h"
+	"rtelcdinit.h"
+	"rtenvminit.h"
+	"rteperiphinit.h"
+	"rteprint.h"
 	<stdio.h>
 	"timer.h"
 	"menu.h"
@@ -14,12 +21,12 @@
 	"bswwindowsmenu.h"
 	"bswlinuxmenu.h"
 
-1583256223 source:/home/igorw/Documents/Source/laserX/laserX/src/menu.c
+1583860549 source:/home/igorw/Documents/Source/laserX/laserX/src/menu.c
 	<stdio.h>
 	<string.h>
 	"menu.h"
 
-1583002013 source:/home/igorw/Documents/Source/laserX/laserX/src/timer.c
+1583821488 source:/home/igorw/Documents/Source/laserX/laserX/src/timer.c
 	"timer.h"
 
 1582546489 /home/igorw/Documents/Source/laserX/laserX/src/Windows/bswwindowsmenu.h
@@ -27,13 +34,13 @@
 
 1582546799 /home/igorw/Documents/Source/laserX/laserX/src/Linux/bswlinuxmenu.h
 
-1583255736 source:/home/igorw/Documents/Source/laserX/laserX/src/Linux/bswlinuxmenu.c
+1583945166 source:/home/igorw/Documents/Source/laserX/laserX/src/Linux/bswlinuxmenu.c
 	<stdint.h>
 	<termios.h>
 	<pthread.h>
 	"bswlinuxmenu.h"
 
-1583005044 source:/home/igorw/Documents/Source/laserX/laserX/src/Linux/bswlinuxtimer.c
+1583860580 source:/home/igorw/Documents/Source/laserX/laserX/src/Linux/bswlinuxtimer.c
 	<stdint.h>
 	<time.h>
 	<math.h>
@@ -44,7 +51,7 @@
 	<stdio.h>
 	"bswwindowsmenu.h"
 
-1582265948 source:/home/igorw/Documents/Source/laserX/laserX/src/Windows/bswwindowstimer.c
+1583860573 source:/home/igorw/Documents/Source/laserX/laserX/src/Windows/bswwindowstimer.c
 	<stdint.h>
 	<windows.h>
 	"bswwindowstimer.h"
@@ -58,7 +65,7 @@
 	"bswwindowstimer.h"
 	"bswlinuxtimer.h"
 
-1583255309 /home/igorw/Documents/Source/laserX/laserX/header/menu.h
+1583752808 /home/igorw/Documents/Source/laserX/laserX/header/menu.h
 	<stdint.h>
 	"rteprint.h"
 
@@ -70,12 +77,128 @@
 1583176765 source:/home/igorw/Documents/Source/laserX/laserX/src/rteprint.c
 	"rteprint.h"
 
-1582224001 /home/igorw/Documents/Source/laserX/laserX/header/Windows/bswwindowstimer.h
+1583860604 /home/igorw/Documents/Source/laserX/laserX/header/Windows/bswwindowstimer.h
 
-1583004944 /home/igorw/Documents/Source/laserX/laserX/header/Linux/bswlinuxtimer.h
+1583860607 /home/igorw/Documents/Source/laserX/laserX/header/Linux/bswlinuxtimer.h
 
 1582546489 /home/igorw/Documents/Source/laserX/laserX/header/Windows/bswwindowsmenu.h
 	<conio.h>
 
-1583180857 /home/igorw/Documents/Source/laserX/laserX/header/Linux/bswlinuxmenu.h
+1583945226 /home/igorw/Documents/Source/laserX/laserX/header/Linux/bswlinuxmenu.h
+
+1583943388 /home/igorw/Documents/Source/laserX/laserX/header/RTE/rteadcinit.h
+	"bswadc.h"
+
+1583859039 /home/igorw/Documents/Source/laserX/laserX/header/MC/bswadc.h
+	<stdint.h>
+
+1583943423 /home/igorw/Documents/Source/laserX/laserX/header/RTE/rteapbinit.h
+	"bswapb.h"
+
+1583859111 /home/igorw/Documents/Source/laserX/laserX/header/MC/bswapb.h
+	<stdint.h>
+
+1583943443 /home/igorw/Documents/Source/laserX/laserX/header/RTE/rtebuzzinit.h
+	"bswbuzz.h"
+
+1583860047 /home/igorw/Documents/Source/laserX/laserX/header/MC/bswbuzz.h
+	<stdint.h>
+
+1583943461 /home/igorw/Documents/Source/laserX/laserX/header/RTE/rtelcdinit.h
+	"bswlcd.h"
+
+1583859796 /home/igorw/Documents/Source/laserX/laserX/header/MC/bswlcd.h
+	<stdint.h>
+
+1583943479 /home/igorw/Documents/Source/laserX/laserX/header/RTE/rtenvminit.h
+	"bswnvm.h"
+
+1583860129 /home/igorw/Documents/Source/laserX/laserX/header/MC/bswnvm.h
+	"menu.h"
+
+1583176054 /home/igorw/Documents/Source/laserX/laserX/header/RTE/rteprint.h
+	<stdint.h>
+	"bswwindowsmenu.h"
+	"bswlinuxmenu.h"
+
+1583943495 /home/igorw/Documents/Source/laserX/laserX/header/RTE/rteperiphinit.h
+	"bswperiph.h"
+
+1583858977 /home/igorw/Documents/Source/laserX/laserX/header/MC/bswperiph.h
+	<stdint.h>
+
+1583860912 source:/home/igorw/Documents/Source/laserX/laserX/src/MC/bswadc.c
+	"bswadc.h"
+
+1583860912 source:/home/igorw/Documents/Source/laserX/laserX/src/MC/bswapb.c
+	"bswapb.h"
+
+1583859314 source:/home/igorw/Documents/Source/laserX/laserX/src/MC/bswbuzz.c
+	"bswbuzz.h"
+
+1583859745 source:/home/igorw/Documents/Source/laserX/laserX/src/MC/bswlcd.c
+	"bswlcd.h"
+
+1583944682 source:/home/igorw/Documents/Source/laserX/laserX/src/MC/bswnvm.c
+	"bswnvm.h"
+
+1583859824 source:/home/igorw/Documents/Source/laserX/laserX/src/MC/bswperiph.c
+	"bswperiph.h"
+
+1583943527 source:/home/igorw/Documents/Source/laserX/laserX/src/RTE/rteadcinit.c
+	"rteadcinit.h"
+
+1583943536 source:/home/igorw/Documents/Source/laserX/laserX/src/RTE/rteadcmain.c
+	"rteadcmain.h"
+
+1583943396 /home/igorw/Documents/Source/laserX/laserX/header/RTE/rteadcmain.h
+	"bswadc.h"
+
+1583943546 source:/home/igorw/Documents/Source/laserX/laserX/src/RTE/rteapbinit.c
+	"rteapbinit.h"
+
+1583943558 source:/home/igorw/Documents/Source/laserX/laserX/src/RTE/rteapbmain.c
+	"rteapbmain.h"
+
+1583943432 /home/igorw/Documents/Source/laserX/laserX/header/RTE/rteapbmain.h
+	"bswapb.h"
+
+1583943568 source:/home/igorw/Documents/Source/laserX/laserX/src/RTE/rtebuzzinit.c
+	"rtebuzzinit.h"
+
+1583944495 source:/home/igorw/Documents/Source/laserX/laserX/src/RTE/rtebuzzmain.c
+	"rtebuzzmain.h"
+
+1583944876 /home/igorw/Documents/Source/laserX/laserX/header/RTE/rtebuzzmain.h
+	"bswbuzz.h"
+
+1583943587 source:/home/igorw/Documents/Source/laserX/laserX/src/RTE/rtelcdinit.c
+	"rtelcdinit.h"
+
+1583945625 source:/home/igorw/Documents/Source/laserX/laserX/src/RTE/rtelcdmain.c
+	"rtelcdmain.h"
+
+1583945548 /home/igorw/Documents/Source/laserX/laserX/header/RTE/rtelcdmain.h
+	"bswlcd.h"
+
+1583943686 source:/home/igorw/Documents/Source/laserX/laserX/src/RTE/rtenvminit.c
+	"rtenvminit.h"
+
+1583944953 source:/home/igorw/Documents/Source/laserX/laserX/src/RTE/rtenvmmain.c
+	"rtenvmmain.h"
+
+1583944972 /home/igorw/Documents/Source/laserX/laserX/header/RTE/rtenvmmain.h
+	"bswnvm.h"
+
+1583943912 source:/home/igorw/Documents/Source/laserX/laserX/src/RTE/rteperiphinit.c
+	"rteperiphinit.h"
+
+1583943741 source:/home/igorw/Documents/Source/laserX/laserX/src/RTE/rteperiphmain.c
+	"rteperiphmain.h"
+
+1583943509 /home/igorw/Documents/Source/laserX/laserX/header/RTE/rteperiphmain.h
+	"bswperiph.h"
+
+1583945664 source:/home/igorw/Documents/Source/laserX/laserX/src/RTE/rteprint.c
+	"rteprint.h"
 

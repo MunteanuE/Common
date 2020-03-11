@@ -20,7 +20,7 @@
 #include "bswlinuxtimer.h"
 
 /* It compares old time with new and will return TRUE if new time bigger than old time plus MS_TICK_TIME. */
-uint8_t u8IsMsTimeout(uint8_t f100Ms){
+uint8_t u8CheckMsTimeout(uint8_t f100Ms){
 
     uint8_t u8Ms = TRUE;
     if(TRUE == f100Ms){

@@ -4,8 +4,8 @@
 static void autoFill(uint8_t u8Count)
 {
     for(uint8_t u8i = u8Count; u8i < 17; u8i++){
-        //printChar('0'+u8i%10);
-        printChar(' ');
+        //rteLCDMain('0'+u8i%10);
+        rteLCDMain(' ');
     }
     return;
 }
@@ -18,7 +18,7 @@ void print(uint8_t* u8Buf, uint8_t bStrCanModify) {
     while(*ptr){
         c = *ptr;
         ptr++;
-        printChar(c);
+        rteLCDMain(c);
     }
 
     uint8_t u8Count1 = 0;
@@ -49,7 +49,7 @@ void print(uint8_t* u8Buf, uint8_t bStrCanModify) {
             ptrBuff++;
 
             if(charToPrint != '$' ) {
-                printChar(charToPrint);
+                rteLCDMain(charToPrint);
             }
         }
         bStrCanModify = 1;

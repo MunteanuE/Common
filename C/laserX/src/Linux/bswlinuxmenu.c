@@ -19,7 +19,7 @@
 
 inline static void initTermios(unsigned int);
 inline static void resetTermios(void);
-inline static void* s8Getch_(void*);
+inline static void* getch_(void*);
 void printString(const char*, const char*);
 void printChar(const char);
 
@@ -27,25 +27,24 @@ extern uint8_t getchar(void);
 extern int putchar ( int character );
 extern int32_t printf(const char *, ...);
 
-static struct termios stOld, stNew;
-pthread_mutex_t lock;
+static struct termios sOld, sNew;
 uint8_t u8Ch;
-uint8_t fRis = 0;
+uint8_t fRisen = 0;
 
 inline static void initTermios(unsigned int echo){
 
-  tcgetattr(0, &stOld);
-  stNew = stOld;
-  stNew.c_lflag &= ~ICANON;
-  stNew.c_lflag &= echo ? ECHO : ~ECHO;
-  stNew.c_cc[VTIME] = 50;
-  tcsetattr(0, TCSANOW, &stNew);
+  tcgetattr(0, &sOld);
+  sNew = sOld;
+  sNew.c_lflag &= ~ICANON;
+  sNew.c_lflag &= echo ? ECHO : ~ECHO;
+  sNew.c_cc[VTIME] = 50;
+  tcsetattr(0, TCSANOW, &sNew);
   return;
 }
 
 inline static void resetTermios(void){
 
-  tcsetattr(0, TCSANOW, &stOld);
+  tcsetattr(0, TCSANOW, &sOld);
   return;
 }
 
@@ -53,27 +52,28 @@ inline static void* rise_(void* arg){
 
     pthread_t thr;
     while(1){
-        if(!fRis){
-            fRis = 1;
-            pthread_create(&thr, NULL, s8Getch_, (void *)arg);
+        if(!fRisen){
+            fRisen = 1;
+            pthread_create(&thr, NULL, getch_, (void *)arg);
         }
     }
     return NULL;
 }
 
-inline static void* s8Getch_(void* arg){
+inline static void* getch_(void* arg){
 
-  initTermios(0);
+  initTermios(*((uint8_t*)arg));
   u8Ch = getchar();
   resetTermios();
-  fRis = 0;
+  fRisen = 0;
   return NULL;
 }
 
-uint8_t getch(void){
+uint8_t u8Getch(void){
 
     pthread_t thr;
-    uint8_t arg = 0;
+    const uint8_t null = 0;
+    const uint8_t* arg = &null;
 
     static uint8_t fInit = 0;
     if(!fInit){
@@ -85,7 +85,7 @@ uint8_t getch(void){
     return ret;
 }
 
-void printChar(const char u8c){
+void rteLCDMain(const char u8c){
 
     putchar((int)u8c);
     return;

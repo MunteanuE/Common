@@ -29,7 +29,6 @@ enum{
     enMenuWork,
     enMenuMax,
     enMenuWorking,
-    enMenuRec
 };
 
 static uint8_t u8LastKeyValue = 0;
@@ -52,9 +51,7 @@ static void printMain(uint8_t);
 static void printWork(uint8_t);
 static void writeWork(char* c, uint8_t);
 static void printWorking(uint8_t);
-static void printRec(uint8_t);
 static char* pcOptionMenu(uint8_t);
-static char* pcOptionRec(uint8_t);
 
 static void hMainKeySelect(sMenuType* const);
 static void hMainKeyCancel(sMenuType* const);
@@ -67,13 +64,14 @@ static void hKeySelectTime(sMenuType* const);
 static void hKeySelectPower(sMenuType* const);
 static void hKeySelectWork(sMenuType* const);
 static void hKeySelectWorking(sMenuType* const);
-static void hKeySelectRec(sMenuType* const);
 static void hKeyCancelFreq(sMenuType* const);
 static void hKeyCancelTime(sMenuType* const);
 static void hKeyCancelPower(sMenuType* const);
 static void hKeyCancelWork(sMenuType* const);
 static void hKeyCancelWorking(sMenuType* const);
-static void hKeyCancelRec(sMenuType* const);
+
+static void offerRec(void);
+static void readRec(uint8_t);
 
 
 const char strMenuFreq[] = "$Menu Frequency$\n$%s$";
@@ -82,15 +80,11 @@ const char strMenuPower[] = "$Menu Power$\n$%s$";
 const char strMenuWork[] = "%s";
 const char strMenuMain[] = "$Select Menu$\n$%s$";
 const char strStart[] = "\033[?25l";
-const char strMenuRec[] = "$Menu Record$\n$%s$";
 
 char pOptFreq[] = "Frequency";
 char pOptTime[] = "Time";
 char pOptPower[] = "Power";
 char pOptWork[] = "Work";
-
-char pOptRecSave[] = "Save";
-char pOptRecLoad[] = "Load";
 
 static uint8_t u8ActiveMenu = 0;
 
@@ -99,7 +93,6 @@ uint8_t u8CurTime = 0;
 uint8_t u8CurPower = 0;
 uint8_t u8CurWork = 0;
 uint8_t u8CurWorking = 0;
-uint8_t u8CurRec = 0;
 uint8_t u8CurMain = enMenuFrequency;
 uint16_t u16TimeRemaining = 0;
 
@@ -109,10 +102,12 @@ sMenuType menuPower = {    hKeySelectPower,   hKeyCancelPower,   printPower,   M
 sMenuType menuWork = {     hKeySelectWork,    hKeyCancelWork,    printWork,    MIN_WORK,        &u8CurWork,    MAX_WORK,      enMenuMain, strMenuWork};
 sMenuType mainMenu = {     hMainKeySelect,    hMainKeyCancel,    printMain,    enMenuFrequency, &u8CurMain,    enMenuWork,    0,          strMenuMain};
 sMenuType menuWorking = {  hKeySelectWorking, hKeyCancelWorking, printWorking, 0,               &u8CurWorking, 0,             enMenuWork, 0};
-sMenuType menuRec = {      hKeySelectRec,     hKeyCancelRec,     printRec,     MIN_REC,         &u8CurRec,     MAX_REC,       enMenuWork, strMenuRec};
 
-sMenuType* asMenuInstances[enMenuMax+3] = {&mainMenu, &menuFrequency, &menuTime, &menuPower, &menuWork, 0, &menuWorking, &menuRec};
-sTypeRecord* asRecordArray[MAX_WORK];
+sMenuType* asMenuInstances[enMenuMax+2] = {&mainMenu, &menuFrequency, &menuTime, &menuPower, &menuWork, 0, &menuWorking};
+const sTypeRecord zeroRecord = {0xFF, 0xFF, 0xFF};
+const sTypeRecord defaultRecord = {0x0, 0x0, 0x0};
+sTypeRecord asRecordArray[MAX_WORK] = {zeroRecord, zeroRecord, zeroRecord, zeroRecord, zeroRecord,
+                                       zeroRecord, zeroRecord, zeroRecord, zeroRecord, zeroRecord};
 
 uint8_t bCanModify(void){
     return bStrCanModify;
@@ -190,22 +185,6 @@ static char* pcOptionMenu(uint8_t u8Cur){
     return c;
 }
 
-static char* pcOptionRec(uint8_t u8Cur){
-    char* c;
-    switch(u8Cur){
-    case MIN_REC:
-        c = pOptRecSave;
-        break;
-    case MAX_REC:
-        c = pOptRecLoad;
-        break;
-    default:
-        c = 0;
-        break;
-    }
-    return c;
-}
-
 static void UpCur(sMenuType* const struc) {
      if( u8TempCur < (*struc).u8MaxVal ){
         u8TempCur++;
@@ -240,7 +219,7 @@ uint8_t u8Input(void) {
 /* It accepts value from buttons. */
 static uint8_t u8GetPressButt(void) {
     uint8_t u8Result = KEY_ESCAPE;
-    u8Result = (uint8_t)getch();
+    u8Result = u8Getch();
     return u8Result;
 }
 /* It writes physical value of frequency */
@@ -316,20 +295,28 @@ static void printMain(uint8_t u8Val) {
 
 static void printWork(uint8_t u8Val){
 
-    bStrCanModify = FALSE;
     char c[40];
+    char pStrWork[8];
+    writeWork(pStrWork, u8Val);
+
+    bStrCanModify = FALSE;
     char pStrFreq[8];
     char pStrTime[8];
     char pStrPower[8];
-    char pStrWork[8];
 
-    writeFreq(pStrFreq, u8CurFreq);
-    writeTime(pStrTime, u8CurTime);
-    writePower(pStrPower, u8CurPower);
-    writeWork(pStrWork, u8Val);
+    if( 0 == u8Val ){
+        writeFreq(pStrFreq, u8CurFreq);
+        writeTime(pStrTime, u8CurTime);
+        writePower(pStrPower, u8CurPower);
+    } else {
+        writeFreq(pStrFreq, asRecordArray[u8Val-1].valFreq);
+        writeTime(pStrTime, asRecordArray[u8Val-1].valTime);
+        writePower(pStrPower, asRecordArray[u8Val-1].valPower);
+    }
 
     sprintf((char*)c, "$%s, %s$\n$%s, %s$", pStrFreq, pStrTime, pStrPower, pStrWork);
     sprintf((char*)u8Buf, menuWork.u8MenuString, c);
+    return;
 }
 
 static void writeWork(char* c, uint8_t u8Val){
@@ -369,15 +356,6 @@ static void printWorking(uint8_t u8Val){
         menuWork.funcPrintMenu(u8TempCur);
     }
     u16TimeRemaining--;
-    return;
-}
-
-static void printRec(uint8_t u8Val) {
-
-    bStrCanModify = FALSE;
-
-    sprintf((char*)u8Buf, menuRec.u8MenuString, pcOptionRec(u8Val));
-
     return;
 }
 
@@ -462,8 +440,8 @@ static void KeyDown(sMenuType* const struc) {
 static void hKeySelectFreq(sMenuType* const struc) {
 
     (*(*struc).pU8CurVal) = u8TempCur;
-    mainMenu.funcPrintMenu(*(mainMenu.pU8CurVal));
-    u8TempCur = (*mainMenu.pU8CurVal);
+    mainMenu.funcPrintMenu(*(mainMenu.pU8CurVal)+1);
+    u8TempCur = (*mainMenu.pU8CurVal)+1;
     u8ActiveMenu = (*struc).u8BackMenuIdx;
     return;
 }
@@ -471,8 +449,8 @@ static void hKeySelectFreq(sMenuType* const struc) {
 static void hKeySelectTime(sMenuType* const struc) {
 
     (*(*struc).pU8CurVal) = u8TempCur;
-    mainMenu.funcPrintMenu(*(mainMenu.pU8CurVal));
-    u8TempCur = (*mainMenu.pU8CurVal);
+    mainMenu.funcPrintMenu(*(mainMenu.pU8CurVal)+1);
+    u8TempCur = (*mainMenu.pU8CurVal)+1;
     u8ActiveMenu = (*struc).u8BackMenuIdx;
     return;
 }
@@ -480,8 +458,8 @@ static void hKeySelectTime(sMenuType* const struc) {
 static void hKeySelectPower(sMenuType* const struc) {
 
     (*(*struc).pU8CurVal) = u8TempCur;
-    mainMenu.funcPrintMenu(*(mainMenu.pU8CurVal));
-    u8TempCur = (*mainMenu.pU8CurVal);
+    mainMenu.funcPrintMenu(*(mainMenu.pU8CurVal)+1);
+    u8TempCur = (*mainMenu.pU8CurVal)+1;
     u8ActiveMenu = (*struc).u8BackMenuIdx;
     return;
 }
@@ -491,6 +469,7 @@ static void hKeySelectWork(sMenuType* const struc) {
     (*(*struc).pU8CurVal) = u8TempCur;
     if( (*menuWork.pU8CurVal) == MIN_WORK ) {
 
+        offerRec();
         u8ActiveMenu = enMenuWorking;
         u16TimeRemaining = u16TimeCur2Phys(u8CurTime);
         bStrCanModify = 0;
@@ -498,16 +477,13 @@ static void hKeySelectWork(sMenuType* const struc) {
 
     } else {
 
-        u8ActiveMenu = enMenuRec;
-        (*(*struc).pU8CurVal) = u8TempCur;
-        sMenuType* const sThis = asMenuInstances[enMenuRec];
-        if(NULL != (*sThis).funcPrintMenu) {
-            (*sThis).funcPrintMenu((*(*sThis).pU8CurVal));
+        readRec(u8TempCur-1);
+        u8TempCur = 0;
+        if(NULL != (*struc).funcPrintMenu) {
+            (*struc).funcPrintMenu(u8TempCur);
         } else {
             bStrCanModify = 0;
         }
-        u8ActiveMenu = enMenuRec;
-        u8TempCur = (*(*sThis).pU8CurVal);
 
     }
     return;
@@ -516,15 +492,6 @@ static void hKeySelectWork(sMenuType* const struc) {
 static void hKeySelectWorking(sMenuType* const struc) {
 
     (*struc).funcPrintMenu(*((*struc).pU8CurVal));
-    return;
-}
-
-static void hKeySelectRec(sMenuType* const struc) {
-
-    sMenuType* const sThis = asMenuInstances[(*struc).u8BackMenuIdx];
-    (*sThis).funcPrintMenu(*((*sThis).pU8CurVal));
-    u8TempCur = (*(*sThis).pU8CurVal);
-    u8ActiveMenu = (*struc).u8BackMenuIdx;
     return;
 }
 
@@ -605,12 +572,41 @@ static void hKeyCancelWorking(sMenuType* const struc) {
     return;
 }
 
-static void hKeyCancelRec(sMenuType* const struc) {
+static void offerRec(void){
 
-    sMenuType* const sThis = asMenuInstances[(*struc).u8BackMenuIdx];
-    (*sThis).funcPrintMenu(*((*sThis).pU8CurVal));
-    u8TempCur = (*(*sThis).pU8CurVal);
-    u8ActiveMenu = (*struc).u8BackMenuIdx;
+    if( !(u8CurFreq == asRecordArray[0].valFreq && u8CurTime == asRecordArray[0].valTime  && u8CurPower == asRecordArray[0].valPower) ){
+        sTypeRecord temp;
+        for(uint8_t u8i = 0; (u8i < MAX_WORK); u8i++){
+            if(0 != u8i){
+                sTypeRecord swap = asRecordArray[u8i];
+                asRecordArray[u8i] = temp;
+                temp = swap;
+            } else {
+                temp = asRecordArray[u8i];
+                asRecordArray[u8i].valFreq = u8CurFreq;
+                asRecordArray[u8i].valTime = u8CurTime;
+                asRecordArray[u8i].valPower = u8CurPower;
+            }
+        }
+    }
+    return;
+}
+
+void checkAllRecs(void){
+
+    for(uint8_t u8i = 0; u8i < MAX_WORK; u8i++){
+        if(asRecordArray[u8i].valFreq > MAX_FREQUENCY || asRecordArray[u8i].valTime > MAX_TIME || asRecordArray[u8i].valPower > MAX_POWER){
+            asRecordArray[u8i] = defaultRecord;
+        }
+    }
+    return;
+}
+
+static void readRec(uint8_t u8Num){
+
+    u8CurFreq = asRecordArray[u8Num].valFreq;
+    u8CurTime = asRecordArray[u8Num].valTime;
+    u8CurPower = asRecordArray[u8Num].valPower;
     return;
 }
 

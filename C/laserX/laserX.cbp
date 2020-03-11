@@ -53,21 +53,40 @@
 			<Add directory="src" />
 			<Add directory="src/Linux" />
 			<Add directory="src/Windows" />
-			<Add directory="src/AVR" />
+			<Add directory="src/MC" />
 			<Add directory="header" />
 			<Add directory="header/Linux" />
 			<Add directory="header/Windows" />
-			<Add directory="header/AVR" />
+			<Add directory="header/MC" />
+			<Add directory="header/RTE" />
 		</Compiler>
 		<Linker>
 			<Add library="pthread" />
 		</Linker>
 		<Unit filename="header/Linux/bswlinuxmenu.h" />
 		<Unit filename="header/Linux/bswlinuxtimer.h" />
+		<Unit filename="header/MC/bswadc.h" />
+		<Unit filename="header/MC/bswapb.h" />
+		<Unit filename="header/MC/bswbuzz.h" />
+		<Unit filename="header/MC/bswlcd.h" />
+		<Unit filename="header/MC/bswnvm.h" />
+		<Unit filename="header/MC/bswperiph.h" />
+		<Unit filename="header/RTE/rteadcinit.h" />
+		<Unit filename="header/RTE/rteadcmain.h" />
+		<Unit filename="header/RTE/rteapbinit.h" />
+		<Unit filename="header/RTE/rteapbmain.h" />
+		<Unit filename="header/RTE/rtebuzzinit.h" />
+		<Unit filename="header/RTE/rtebuzzmain.h" />
+		<Unit filename="header/RTE/rtelcdinit.h" />
+		<Unit filename="header/RTE/rtelcdmain.h" />
+		<Unit filename="header/RTE/rtenvminit.h" />
+		<Unit filename="header/RTE/rtenvmmain.h" />
+		<Unit filename="header/RTE/rteperiphinit.h" />
+		<Unit filename="header/RTE/rteperiphmain.h" />
+		<Unit filename="header/RTE/rteprint.h" />
 		<Unit filename="header/Windows/bswwindowsmenu.h" />
 		<Unit filename="header/Windows/bswwindowstimer.h" />
 		<Unit filename="header/menu.h" />
-		<Unit filename="header/rteprint.h" />
 		<Unit filename="header/timer.h" />
 		<Unit filename="main.c">
 			<Option compilerVar="CC" />
@@ -78,6 +97,63 @@
 		<Unit filename="src/Linux/bswlinuxtimer.c">
 			<Option compilerVar="CC" />
 		</Unit>
+		<Unit filename="src/MC/bswadc.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/MC/bswapb.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/MC/bswbuzz.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/MC/bswlcd.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/MC/bswnvm.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/MC/bswperiph.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/RTE/rteadcinit.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/RTE/rteadcmain.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/RTE/rteapbinit.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/RTE/rteapbmain.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/RTE/rtebuzzinit.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/RTE/rtebuzzmain.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/RTE/rtelcdinit.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/RTE/rtelcdmain.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/RTE/rtenvminit.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/RTE/rtenvmmain.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/RTE/rteperiphinit.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/RTE/rteperiphmain.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/RTE/rteprint.c">
+			<Option compilerVar="CC" />
+		</Unit>
 		<Unit filename="src/Windows/bswwindowsmenu.c">
 			<Option compilerVar="CC" />
 		</Unit>
@@ -85,9 +161,6 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="src/menu.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="src/rteprint.c">
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="src/timer.c">

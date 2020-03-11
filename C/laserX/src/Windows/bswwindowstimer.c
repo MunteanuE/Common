@@ -13,7 +13,7 @@
 #if !defined(BSWWINDOWSTIMER_H) && defined(WINDOWS)
 #include "bswwindowstimer.h"
 
-uint8_t u8IsMsTimeout(void)
+uint8_t u8CheckMsTimeout(void)
 {
     SYSTEMTIME stTime;
 

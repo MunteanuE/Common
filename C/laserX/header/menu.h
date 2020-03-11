@@ -23,9 +23,6 @@
 #define MIN_WORK 0
 #define MAX_WORK 10
 
-#define MIN_REC 0
-#define MAX_REC 1
-
 #define TRUE 1
 #define FALSE 0
 
@@ -56,5 +53,7 @@ extern uint8_t u8Input(void);
 extern uint8_t u8Menu(void);
 extern uint8_t bCanModify(void);
 extern uint8_t u8IsWorking(void);
+extern void checkAllRecs(void);
+uint8_t* aCallBackMenu(void);
 
 #endif

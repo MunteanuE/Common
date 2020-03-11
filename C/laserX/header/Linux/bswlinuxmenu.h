@@ -9,6 +9,7 @@
 #define KEY_CANCEL  68U
 #define KEY_ESCAPE 0x65
 
-extern uint8_t getch(void);
+extern uint8_t u8Getch(void);
+extern void rteLCDMain(const char);
 
 #endif
