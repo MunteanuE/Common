@@ -1,8 +1,8 @@
 /* You must define in build options LINUX, WINDOWS or AVR */
 
-#ifndef RTEADCINIT_H
+
 #include "rteadcinit.h"
-#endif
+
 
 #ifndef RTEAPBINIT_H
 #include "rteapbinit.h"
