@@ -45,12 +45,12 @@
 
 int32_t main(void){
 
-    rtePeriphInit();
-    rteADCInit();
+    ioPeriphInit();
+    ioADCInit();
     rteAPBInit();
-    rteBuzzInit();
-    rteNVMInit();
-    rteLCDInit();
+    buzzInit();
+    nvmInit();
+    lcdInit();
 
     uint8_t f100Ms = FALSE;
 
